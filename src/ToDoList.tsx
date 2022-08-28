@@ -6,6 +6,7 @@ interface IFormData {
       message: string;
     };
   };
+  extraError?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -20,12 +21,21 @@ export function ToDoList() {
     watch,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IFormData>({
     defaultValues: {
       email: "@naver.com",
     },
   });
-  const onValid = (data: any) => {
+  const onValid = (data: IFormData) => {
+    if (data.password !== data.password1) {
+      setError(
+        "password1",
+        { message: "Password are not the same" },
+        { shouldFocus: true }
+      );
+      // setError("extraError", { message: "Server offline..." });
+    }
     console.log(data);
   };
   // console.log(watch());
@@ -49,14 +59,14 @@ export function ToDoList() {
           <span>{errors?.email?.message}</span>
         </strong>
         <input
-          {...register("firstName", { required: "Required Here" })}
+          {...register("firstName", { required: "Wirte here" })}
           placeholder="FirstName"
         />
         <strong>
           <span>{errors?.firstName?.message}</span>
         </strong>
         <input
-          {...register("lastName", { required: "Required Here" })}
+          {...register("lastName", { required: "Wirte here" })}
           placeholder="LastName"
         />
         <strong>
@@ -64,8 +74,14 @@ export function ToDoList() {
         </strong>
         <input
           {...register("userName", {
-            required: "Required Here",
-            minLength: 10,
+            required: "Wirte here",
+            validate: {
+              noNico: (value) =>
+                value.includes("nico") ? "no nicos allowed" : true,
+              noNick: (value) =>
+                value.includes("nick") ? "no nicks allowed" : true,
+            },
+            minLength: { value: 5, message: "Your userName is to short" },
           })}
           placeholder="UserName"
         />
@@ -99,6 +115,7 @@ export function ToDoList() {
           <span>{errors?.password1?.message}</span>
         </strong>
         <button>Add</button>
+        {/* <span>{errors?.extraError?.message}</span> */}
       </form>
     </div>
   );
