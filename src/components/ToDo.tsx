@@ -18,13 +18,19 @@ const ToDoList = styled.div`
 `;
 
 export function ToDo({ text, category, id }: IToDo) {
+  const setToDos = useSetRecoilState(toDoState);
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name },
     } = event;
+    setToDos((oldTodos) => {
+      const targetIndex = oldTodos.findIndex((toDo) => toDo.id === id);
+      const oldToDo = oldTodos[targetIndex];
+      const newToDo = { text, id, category: name };
+      console.log(oldToDo, newToDo);
+      return oldTodos;
+    });
   };
-
-  const setToDos = useSetRecoilState(toDoState);
 
   return (
     <ToDoList>
