@@ -36,6 +36,7 @@ export function CreateToDo() {
         />
         <button>Add</button>
       </form>
+      <hr />
     </WriteToDo>
   );
 }
