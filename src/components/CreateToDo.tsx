@@ -25,8 +25,6 @@ export function CreateToDo() {
   };
   return (
     <WriteToDo>
-      <h1>To Dos</h1>
-      <hr />
       <form onSubmit={handleSubmit(handleValid)}>
         <input
           {...register("toDo", {
