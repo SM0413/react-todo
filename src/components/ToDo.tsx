@@ -25,10 +25,12 @@ export function ToDo({ text, category, id }: IToDo) {
     } = event;
     setToDos((oldTodos) => {
       const targetIndex = oldTodos.findIndex((toDo) => toDo.id === id);
-      const oldToDo = oldTodos[targetIndex];
-      const newToDo = { text, id, category: name };
-      console.log(oldToDo, newToDo);
-      return oldTodos;
+      const newToDo = { text, id, category: name as IToDo["category"] };
+      return [
+        ...oldTodos.slice(0, targetIndex),
+        newToDo,
+        ...oldTodos.slice(targetIndex + 1),
+      ];
     });
   };
 
